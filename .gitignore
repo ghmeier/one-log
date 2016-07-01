@@ -1,0 +1,5 @@
+env/
+.coverage
+*.pyc
+onelog/tests/.cache/
+onelog/tests/__pycache__/
