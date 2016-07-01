@@ -4,4 +4,4 @@ python:
 # command to install dependencies
 install: "pip install -r requirements.txt"
 # command to run tests
-script: py.test --fb=native onelog/tests/main.py
+script: py.test --tb=native onelog/tests/main.py
