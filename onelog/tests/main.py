@@ -76,6 +76,20 @@ class OneLogTester(unittest.TestCase):
         assert(data.state == OL.START)
         assert(data.data == {'state_msg': 'updated'})
 
+    def test_log_data_deep_update(self):
+        log_data = OL.get_log_data('onelog.test',
+                                   'test_get_log_data',
+                                   data={"animals": {
+                                       "dog": {"owner": "me"},
+                                       "cat": {"owner": "you"}}})
+
+        data = OL.update(log_data, data={"animals": {"dog": {"owner": "you"}}})
+        assert(data.path == 'onelog.test')
+        assert(data.method == 'test_get_log_data')
+        assert(data.state == OL.START)
+        assert(data.data['animals']['dog'] == {"owner": "you"})
+        assert(data.data['animals']['cat'] == {"owner": "you"})
+
     @mock.patch('onelog.log.info')
     def test_log_info(self, log_mock):
         log_data = OL.get_log_data('onelog.test',
