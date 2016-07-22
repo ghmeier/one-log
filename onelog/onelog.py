@@ -1,4 +1,5 @@
 import copy
+import collections
 import logging
 
 log = logging.getLogger(__name__)
@@ -59,8 +60,21 @@ class OneLog(object):
     def _update(log_data, state=START, data={}):
         new_data = copy.deepcopy(log_data)
         new_data.state = state
-        new_data.data.update(data)
+
+        dat = OneLog._deepUpdate(new_data.data, data)
+
+        new_data.data = dat
         return new_data
+
+    @staticmethod
+    def _deepUpdate(d, u):
+        for k, v in u.iteritems():
+            if (isinstance(v, collections.Mapping)):
+                r = OneLog._deepUpdate(d.get(k, {}), v)
+                d[k] = r
+            else:
+                d[k] = v
+        return d
 
     @staticmethod
     def get_log_data(path, method, data={}):
