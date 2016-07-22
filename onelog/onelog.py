@@ -60,7 +60,6 @@ class OneLog(object):
     def _update(log_data, state=START, data={}):
         new_data = copy.deepcopy(log_data)
         new_data.state = state
-
         dat = OneLog._deepUpdate(new_data.data, data)
 
         new_data.data = dat
