@@ -1,3 +1,4 @@
+import copy
 import logging
 
 log = logging.getLogger(__name__)
@@ -38,18 +39,28 @@ class OneLog(object):
 
     @staticmethod
     def fail(log_data, data={}):
-        log_data.state = OneLog.FAILURE
-        return OneLog.update(log_data, data=data)
+        return OneLog._update(
+            log_data,
+            state=OneLog.FAILURE,
+            data=data)
 
     @staticmethod
     def succeed(log_data, data={}):
-        log_data.state = OneLog.SUCCESS
-        return OneLog.update(log_data, data=data)
+        return OneLog._update(
+            log_data,
+            state=OneLog.SUCCESS,
+            data=data)
 
     @staticmethod
     def update(log_data, data={}):
-        log_data.data.update(data)
-        return log_data
+        return OneLog._update(log_data, data=data)
+
+    @staticmethod
+    def _update(log_data, state=START, data={}):
+        new_data = copy.deepcopy(log_data)
+        new_data.state = state
+        new_data.data.update(data)
+        return new_data
 
     @staticmethod
     def get_log_data(path, method, data={}):
