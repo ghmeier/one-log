@@ -39,25 +39,25 @@ class OneLog(object):
         return kwargs
 
     @staticmethod
-    def fail(log_data, data={}):
+    def fail(log_data, data=None):
         return OneLog._update(
             log_data,
             state=OneLog.FAILURE,
             data=data)
 
     @staticmethod
-    def succeed(log_data, data={}):
+    def succeed(log_data, data=None):
         return OneLog._update(
             log_data,
             state=OneLog.SUCCESS,
             data=data)
 
     @staticmethod
-    def update(log_data, data={}):
+    def update(log_data, data=None):
         return OneLog._update(log_data, data=data)
 
     @staticmethod
-    def _update(log_data, state=START, data={}):
+    def _update(log_data, state=START, data=None):
         new_data = copy.deepcopy(log_data)
         new_data.state = state
         dat = OneLog._deepUpdate(new_data.data, data)
@@ -67,6 +67,9 @@ class OneLog(object):
 
     @staticmethod
     def _deepUpdate(d, u):
+        if u is None:
+            return d
+
         for k, v in u.iteritems():
             if (isinstance(v, collections.Mapping)):
                 r = OneLog._deepUpdate(d.get(k, {}), v)
