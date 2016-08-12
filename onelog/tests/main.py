@@ -96,7 +96,7 @@ class OneLogTester(unittest.TestCase):
         assert(log_data.path == 'onelog.test')
         assert(log_data.method == 'test_get_log_data')
         assert(log_data.state == OL.START)
-        assert(log_data.data == None)
+        assert(log_data.data == {})
 
         OL.info(log_data)
 
@@ -104,7 +104,7 @@ class OneLogTester(unittest.TestCase):
                                      'state': 'log_data.state',
                                      'method': 'test_get_log_data',
                                      'state': 'START',
-                                     'data': None})
+                                     'data': {}})
 
     @mock.patch('onelog.log.exception')
     def test_log_exception(self, log_mock):
@@ -122,7 +122,7 @@ class OneLogTester(unittest.TestCase):
                                      'state': 'log_data.state',
                                      'method': 'test_get_log_data',
                                      'state': 'FAILURE',
-                                     'data': None})
+                                     'data': {}})
 
     @mock.patch('onelog.log.error')
     def test_log_error(self, log_mock):
